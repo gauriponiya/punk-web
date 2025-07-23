@@ -28,7 +28,7 @@
       object-fit: cover;
       filter: brightness(0.4);
     }
-    #star {
+    .star-layer {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -50,9 +50,22 @@
     #star h1 {
       font-size: 1.5em;
     }
+    .star-layer:nth-child(2) { border-color: #ccc; z-index: 3; }
+    .star-layer:nth-child(3) { border-color: #999; z-index: 2; }
+    .star-layer:nth-child(4) { border-color: #666; z-index: 1; }
+    
     @keyframes rotate {
       from { transform: translate(-50%, -50%) rotate(0deg); }
       to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .expand-star {
+      animation: expand 1s forwards;
+    }
+
+    @keyframes expand {
+      0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(50); opacity: 1; }
     }
 
     #page2, #page3 {
@@ -105,8 +118,11 @@
 <body>
   <div id="intro">
     <video src="your-intro-video.mp4" autoplay muted loop></video>
-    <div id="star" onclick="showPage2()">
-      <h1>KIWI</h1>
+    <div id="star" onclick="triggerTransition()">
+      <div class="star-layer" id="layer1"><h1>KIWI</h1></div>
+      <div class="star-layer" id="layer2"></div>
+      <div class="star-layer" id="layer3"></div>
+      <div class="star-layer" id="layer4"></div>
     </div>
   </div>
 
@@ -115,6 +131,7 @@
       <video src="video1.mp4" autoplay muted loop></video>
       <video src="video2.mp4" autoplay muted loop></video>
       <video src="video3.mp4" autoplay muted loop></video>
+      <!-- Add more videos as needed -->
     </div>
     <div id="dancer">
       <img src="kiwi-dance.gif" alt="Dancing Kiwi" onclick="showPage3()">
@@ -127,14 +144,28 @@
       <a href="https://instagram.com/kiwi" target="_blank">Instagram</a>
       <a href="https://twitter.com/kiwi" target="_blank">Twitter</a>
       <a href="https://youtube.com/@kiwi" target="_blank">YouTube</a>
+      <!-- Add more socials -->
     </div>
   </div>
 
   <script>
-    function showPage2() {
-      document.getElementById('intro').style.display = 'none';
-      document.getElementById('page2').style.display = 'block';
+    function triggerTransition() {
+      document.getElementById("layer4").classList.add("expand-star");
+      setTimeout(() => {
+        document.getElementById("layer3").classList.add("expand-star");
+      }, 100);
+      setTimeout(() => {
+        document.getElementById("layer2").classList.add("expand-star");
+      }, 200);
+      setTimeout(() => {
+        document.getElementById("layer1").classList.add("expand-star");
+      }, 300);
+      setTimeout(() => {
+        document.getElementById('intro').style.display = 'none';
+        document.getElementById('page2').style.display = 'block';
+      }, 1000);
     }
+
     function showPage3() {
       document.getElementById('page2').style.display = 'none';
       document.getElementById('page3').style.display = 'block';
