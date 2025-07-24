@@ -10,143 +10,101 @@
       padding: 0;
       box-sizing: border-box;
     }
-
     body, html {
+      width: 100%;
       height: 100%;
+      overflow: hidden;
       font-family: 'Courier New', Courier, monospace;
       background: black;
-      overflow: hidden;
     }
-
-    #bg-gif {
-      position: fixed;
+    #page1 {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+    #background-gif {
+      position: absolute;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      z-index: -2;
+      z-index: 0;
     }
-
-    #video-container {
+    #intro-video {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: -1;
+      width: 80%;
+      max-height: 80%;
+      z-index: 1;
     }
-
-    #intro-video {
-      width: 70vw;
-      max-width: 800px;
-    }
-
-    .star {
+    #star-container {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) rotate(0deg);
+      transform: translate(-50%, -50%);
       width: 150px;
       height: 150px;
+      z-index: 2;
+      animation: rotate 4s linear infinite;
       cursor: pointer;
-      animation: rotate 5s linear infinite;
-      transition: transform 0.5s ease-in-out;
     }
-
-    @keyframes rotate {
-      from {
-        transform: translate(-50%, -50%) rotate(0deg);
-      }
-      to {
-        transform: translate(-50%, -50%) rotate(360deg);
-      }
+    #star-container img {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
-
-    .burst-layer {
+    #star-container .k2-label {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      width: 150px;
-      height: 150px;
-      opacity: 0.8;
-      animation: burst 0.5s ease-out forwards;
-      pointer-events: none;
-    }
-
-    @keyframes burst {
-      0% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.9;
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(20);
-        opacity: 0;
-      }
-    }
-
-    #page2 {
-      display: none;
-      background: #111;
+      transform: translate(-50%, -50%);
+      font-size: 28px;
+      font-family: 'Impact', fantasy;
       color: white;
-      height: 100vh;
-      width: 100vw;
-      position: absolute;
-      top: 0;
-      left: 0;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
+      text-shadow: 0 0 5px #ff00ff;
     }
-
+    @keyframes rotate {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
     audio {
       display: none;
     }
   </style>
 </head>
 <body>
-
-  <audio autoplay loop>
-    <source src="background-music.mp3" type="audio/mpeg">
+  <div id="page1">
+    <img id="background-gif" src="background.gif" alt="Background GIF">
+    <video id="intro-video" autoplay muted loop>
+      <source src="intro.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div id="star-container" onclick="goToNextPage()">
+      <img src="star.png" alt="Star">
+      <div class="k2-label">K2</div>
+    </div>
+  </div>
+  <audio id="bg-music" autoplay loop>
+    <source src="background-music.mp3" type="audio/mp3">
     Your browser does not support the audio element.
   </audio>
 
-  <img id="bg-gif" src="background.gif" alt="Background GIF" />
-
-  <div id="video-container">
-    <video id="intro-video" autoplay muted loop>
-      <source src="intro.mp4" type="video/mp4" />
-    </video>
-  </div>
-
-  <img src="star.png" alt="Star" class="star" id="star" />
-
-  <div id="page2">
-    <h1>Welcome to Kiwi's World 🌟</h1>
-  </div>
-
   <script>
-    const star = document.getElementById('star');
-    const page2 = document.getElementById('page2');
-
-    const shades = ['#ffffff', '#dddddd', '#bbbbbb', '#999999'];
-
-    star.addEventListener('click', () => {
-      for (let i = 0; i < shades.length; i++) {
-        const layer = document.createElement('img');
-        layer.src = 'star.png';
-        layer.classList.add('burst-layer');
-        layer.style.animationDelay = `${i * 0.1}s`;
-        layer.style.zIndex = 5 + i;
-        layer.style.filter = `brightness(${1 - i * 0.1})`;
-        document.body.appendChild(layer);
-        setTimeout(() => layer.remove(), 1000);
+    // Required to enable autoplay for some browsers
+    window.addEventListener('click', () => {
+      const music = document.getElementById('bg-music');
+      if (music.paused) {
+        music.play();
       }
+    }, { once: true });
 
-      setTimeout(() => {
-        page2.style.display = 'flex';
-      }, 600);
-    });
+    function goToNextPage() {
+      // You can define the animation and transition here later
+      document.body.innerHTML = '<h1 style="color:white;text-align:center;margin-top:50vh;">Page 2 Coming Soon...</h1>';
+    }
   </script>
 </body>
 </html>
