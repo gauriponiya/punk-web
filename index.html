@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KIWI PUNK SITE</title>
   <style>
     * {
@@ -17,61 +17,57 @@
       font-family: monospace;
       overflow: hidden;
     }
-    #intro, #page2, #page3 {
-      position: absolute;
+    #intro {
+      position: relative;
       width: 100vw;
       height: 100vh;
-      top: 0;
-      left: 0;
-      display: none;
     }
-    #intro {
-      display: block;
+    #intro .background-gif {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
     }
     #intro video {
+      position: absolute;
       width: 100%;
       height: 100%;
       object-fit: cover;
       filter: brightness(0.4);
+      z-index: 1;
     }
-    .star-container {
+    #star {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%) rotate(0deg);
       width: 200px;
       height: 200px;
+      z-index: 2;
       animation: rotate 8s linear infinite;
       cursor: pointer;
     }
-    .star-layer {
-      position: absolute;
-      top: 0;
-      left: 0;
+    #star img {
       width: 100%;
       height: 100%;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      opacity: 0;
-      transition: opacity 0.2s ease;
     }
-    .star-layer:nth-child(1) { filter: hue-rotate(0deg); }
-    .star-layer:nth-child(2) { filter: hue-rotate(30deg); }
-    .star-layer:nth-child(3) { filter: hue-rotate(60deg); }
-    .star-layer:nth-child(4) { filter: hue-rotate(90deg); }
-    .star-layer:nth-child(5) { filter: hue-rotate(120deg); }
-
     @keyframes rotate {
       from { transform: translate(-50%, -50%) rotate(0deg); }
       to { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
+    #page2, #page3 {
+      display: none;
+      height: 100vh;
+      background-color: black;
+      overflow: auto;
+      padding: 2rem;
+    }
     .video-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
-      padding: 2rem;
     }
     .video-grid video {
       width: 100%;
@@ -110,13 +106,10 @@
 </head>
 <body>
   <div id="intro">
+    <img class="background-gif" src="background.gif" alt="Background GIF">
     <video src="your-intro-video.mp4" autoplay muted loop></video>
-    <div class="star-container" onclick="startTransition()">
-      <div class="star-layer" style="background-image: url('star.png');"></div>
-      <div class="star-layer" style="background-image: url('star.png');"></div>
-      <div class="star-layer" style="background-image: url('star.png');"></div>
-      <div class="star-layer" style="background-image: url('star.png');"></div>
-      <div class="star-layer" style="background-image: url('star.png');"></div>
+    <div id="star" onclick="showPage2()">
+      <img src="star.png" alt="Star">
     </div>
   </div>
 
@@ -141,20 +134,10 @@
   </div>
 
   <script>
-    function startTransition() {
-      const layers = document.querySelectorAll('.star-layer');
-      layers.forEach((layer, i) => {
-        setTimeout(() => {
-          layer.style.opacity = 1;
-          layer.style.transform = 'scale(3)';
-        }, i * 80);
-      });
-      setTimeout(() => {
-        document.getElementById('intro').style.display = 'none';
-        document.getElementById('page2').style.display = 'block';
-      }, layers.length * 80 + 200);
+    function showPage2() {
+      document.getElementById('intro').style.display = 'none';
+      document.getElementById('page2').style.display = 'block';
     }
-
     function showPage3() {
       document.getElementById('page2').style.display = 'none';
       document.getElementById('page3').style.display = 'block';
