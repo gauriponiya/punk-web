@@ -1,147 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KIWI PUNK SITE</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KIWI Punk Site</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     body, html {
       height: 100%;
-      background-color: black;
-      color: white;
-      font-family: monospace;
+      font-family: 'Courier New', Courier, monospace;
+      background: black;
       overflow: hidden;
     }
-    #intro {
-      position: relative;
+
+    #bg-gif {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100vw;
       height: 100vh;
-    }
-    #intro .background-gif {
-      position: absolute;
-      width: 100%;
-      height: 100%;
       object-fit: cover;
-      z-index: 0;
+      z-index: -2;
     }
-    #intro video {
+
+    #video-container {
       position: absolute;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: brightness(0.4);
-      z-index: 1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
     }
-    #star {
+
+    #intro-video {
+      width: 70vw;
+      max-width: 800px;
+    }
+
+    .star {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) rotate(0deg);
-      width: 200px;
-      height: 200px;
-      z-index: 2;
-      animation: rotate 8s linear infinite;
+      width: 150px;
+      height: 150px;
       cursor: pointer;
-    }
-    #star img {
-      width: 100%;
-      height: 100%;
-    }
-    @keyframes rotate {
-      from { transform: translate(-50%, -50%) rotate(0deg); }
-      to { transform: translate(-50%, -50%) rotate(360deg); }
+      animation: rotate 5s linear infinite;
+      transition: transform 0.5s ease-in-out;
     }
 
-    #page2, #page3 {
-      display: none;
-      height: 100vh;
-      background-color: black;
-      overflow: auto;
-      padding: 2rem;
+    @keyframes rotate {
+      from {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
     }
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-    }
-    .video-grid video {
-      width: 100%;
-      height: auto;
-      border: 2px solid white;
-    }
-    #dancer {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 2rem;
-    }
-    #dancer img {
+
+    .burst-layer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
       width: 150px;
-      cursor: pointer;
-      animation: dance 1s infinite alternate;
+      height: 150px;
+      opacity: 0.8;
+      animation: burst 0.5s ease-out forwards;
+      pointer-events: none;
     }
-    @keyframes dance {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-10px); }
+
+    @keyframes burst {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(20);
+        opacity: 0;
+      }
     }
-    #socials {
-      display: flex;
-      flex-direction: column;
+
+    #page2 {
+      display: none;
+      background: #111;
+      color: white;
+      height: 100vh;
+      width: 100vw;
+      position: absolute;
+      top: 0;
+      left: 0;
       justify-content: center;
       align-items: center;
-      gap: 1rem;
-      padding-top: 3rem;
+      text-align: center;
     }
-    #socials a {
-      color: cyan;
-      font-size: 1.2rem;
-      text-decoration: none;
+
+    audio {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div id="intro">
-    <img class="background-gif" src="background.gif" alt="Background GIF">
-    <video src="your-intro-video.mp4" autoplay muted loop></video>
-    <div id="star" onclick="showPage2()">
-      <img src="star.png" alt="Star">
-    </div>
+
+  <audio autoplay loop>
+    <source src="background-music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <img id="bg-gif" src="background.gif" alt="Background GIF" />
+
+  <div id="video-container">
+    <video id="intro-video" autoplay muted loop>
+      <source src="intro.mp4" type="video/mp4" />
+    </video>
   </div>
+
+  <img src="star.png" alt="Star" class="star" id="star" />
 
   <div id="page2">
-    <div class="video-grid">
-      <video src="video1.mp4" autoplay muted loop></video>
-      <video src="video2.mp4" autoplay muted loop></video>
-      <video src="video3.mp4" autoplay muted loop></video>
-    </div>
-    <div id="dancer">
-      <img src="kiwi-dance.gif" alt="Dancing Kiwi" onclick="showPage3()">
-      <p>Touch me</p>
-    </div>
-  </div>
-
-  <div id="page3">
-    <div id="socials">
-      <a href="https://instagram.com/kiwi" target="_blank">Instagram</a>
-      <a href="https://twitter.com/kiwi" target="_blank">Twitter</a>
-      <a href="https://youtube.com/@kiwi" target="_blank">YouTube</a>
-    </div>
+    <h1>Welcome to Kiwi's World 🌟</h1>
   </div>
 
   <script>
-    function showPage2() {
-      document.getElementById('intro').style.display = 'none';
-      document.getElementById('page2').style.display = 'block';
-    }
-    function showPage3() {
-      document.getElementById('page2').style.display = 'none';
-      document.getElementById('page3').style.display = 'block';
-    }
+    const star = document.getElementById('star');
+    const page2 = document.getElementById('page2');
+
+    const shades = ['#ffffff', '#dddddd', '#bbbbbb', '#999999'];
+
+    star.addEventListener('click', () => {
+      for (let i = 0; i < shades.length; i++) {
+        const layer = document.createElement('img');
+        layer.src = 'star.png';
+        layer.classList.add('burst-layer');
+        layer.style.animationDelay = `${i * 0.1}s`;
+        layer.style.zIndex = 5 + i;
+        layer.style.filter = `brightness(${1 - i * 0.1})`;
+        document.body.appendChild(layer);
+        setTimeout(() => layer.remove(), 1000);
+      }
+
+      setTimeout(() => {
+        page2.style.display = 'flex';
+      }, 600);
+    });
   </script>
 </body>
 </html>
