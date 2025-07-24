@@ -44,13 +44,44 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%)rotate(0deg);
       width: 150px;
       height: 150px;
-      z-index: 2;
-      animation: rotate 4s linear infinite;
       cursor: pointer;
+      animation: rotate 5s linear infinite;
+      transition: transform 0.5s ease-in-out;
     }
+
+    @keyframes rotate {
+      from {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+
+    .burst-layer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 150px;
+      height: 150px;
+      opacity: 0.8;
+      animation: burst 0.5s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes burst {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(20);
+        opacity: 0;
+      }
     #star-container img {
       width: 100%;
       height: 100%;
