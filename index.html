@@ -37,12 +37,10 @@
       z-index:0; overflow:hidden;
       animation: vidFloat 5s ease-in-out infinite alternate;
     }
-    #intro-gif {
-  width:70vw;
-  max-width:800px;
-  object-fit:contain;
-  border:4px solid #ff00ff;
-  box-shadow: 0 0 20px #00ffff, inset 0 0 10px #ff00ff;
+    #intro-video {
+      width:70vw; max-width:800px; opacity:0.5; object-fit:contain;
+      border:4px solid #ff00ff;
+      box-shadow: 0 0 20px #00ffff, inset 0 0 10px #ff00ff;
     }
     @keyframes vidFloat {
       from { transform:translate(-50%,-48%); }
@@ -110,7 +108,10 @@
   <div id="page1">
     <img id="bg-gif" src="background.gif" alt="Background GIF">
     <div id="video-container">
-      <img id="intro-gif" src="your-intro.gif" alt="Intro GIF">
+      <video id="intro-video" autoplay muted loop playsinline>
+        <source src="your-intro-video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
     </div>
     <div class="star" onclick="goNext()">
       <img src="star.png" alt="Star">
