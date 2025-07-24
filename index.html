@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>KIWI Punk Site</title>
+
+  <!-- 💡 Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
   <style>
     * {
       margin: 0;
@@ -13,7 +16,6 @@
     }
 
     html, body {
-      width: 100%;
       height: 100%;
       overflow: hidden;
       font-family: 'Courier New', Courier, monospace;
@@ -36,46 +38,51 @@
       background: black;
       color: white;
       font-size: 2em;
-      font-family: Impact, fantasy;
+      font-family: 'Press Start 2P', monospace;
       opacity: 0;
       pointer-events: none;
       z-index: 3;
     }
 
-    #background-gif {
-      position: absolute;
+    #bg-gif {
+      position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       object-fit: cover;
-      z-index: 0;
+      z-index: -2;
+    }
+
+    #video-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
     }
 
     #intro-video {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      height: 80vh;
-      transform: translate(-50%, -50%);
-      z-index: 1;
-      object-fit: contain;
+      width: 70vw;
+      max-width: 800px;
       opacity: 0.5;
+      object-fit: contain;
     }
 
-    #star-container {
+    .star {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%) rotate(0deg);
       width: 150px;
       height: 150px;
-      z-index: 2;
       cursor: pointer;
-      animation: rotate 6s linear infinite;
+      animation: rotate 5s linear infinite;
+      transition: transform 0.5s ease-in-out;
+      z-index: 2;
     }
 
-    #star-container img {
+    .star img {
       width: 100%;
       height: 100%;
       display: block;
@@ -86,23 +93,24 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 28px;
       font-family: 'Press Start 2P', monospace;
-letter-spacing: 2px;
-font-size: 18px;
-color: #fff;
-text-shadow:
-  0 0 3px #ff00ff,
-  0 0 6px #00ffff,
-  0 0 9px #ffffff;
+      font-size: 18px;
+      letter-spacing: 2px;
       color: white;
-      text-shadow: 0 0 8px #ff00ff, 0 0 12px #00ffff;
+      text-shadow:
+        0 0 3px #ff00ff,
+        0 0 6px #00ffff,
+        0 0 9px #ffffff;
       pointer-events: none;
     }
 
     @keyframes rotate {
-      from { transform: translate(-50%, -50%) rotate(0deg); }
-      to   { transform: translate(-50%, -50%) rotate(360deg); }
+      from {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
     }
 
     .burst-layer {
@@ -116,6 +124,7 @@ text-shadow:
       animation: burst 0.8s ease-out forwards;
       z-index: 5;
       pointer-events: none;
+      background: radial-gradient(circle, #ff00ff, #000);
     }
 
     @keyframes burst {
@@ -135,13 +144,18 @@ text-shadow:
   </style>
 </head>
 <body>
+
   <div id="page1">
-    <img id="background-gif" src="background.gif" alt="Background GIF">
-    <video id="intro-video" autoplay muted loop playsinline>
-      <source src="your-intro-video.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    <div id="star-container" onclick="goToNextPage()">
+    <img id="bg-gif" src="background.gif" alt="Background GIF">
+
+    <div id="video-container">
+      <video id="intro-video" autoplay muted loop playsinline>
+        <source src="your-intro-video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <div class="star" onclick="goToNextPage()">
       <img src="star.png" alt="Star">
       <div class="k2-label">K2</div>
     </div>
@@ -163,24 +177,19 @@ text-shadow:
     }, { once: true });
 
     function goToNextPage() {
-      // Create burst animation
-      const star = document.getElementById('star-container');
+      // Burst animation
       const burst = document.createElement('div');
       burst.className = 'burst-layer';
-      burst.style.background = 'radial-gradient(circle, #ff00ff, #000)';
       document.body.appendChild(burst);
 
-      // After animation, show page 2
+      // Switch to page 2
       setTimeout(() => {
         document.getElementById('page1').style.opacity = '0';
         document.getElementById('page2').style.opacity = '1';
         document.getElementById('page2').style.pointerEvents = 'auto';
       }, 800);
 
-      // Clean up burst
-      setTimeout(() => {
-        burst.remove();
-      }, 1500);
+      setTimeout(() => burst.remove(), 1500);
     }
   </script>
 </body>
